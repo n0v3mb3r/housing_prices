@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import imputation as im
 from sklearn.ensemble import RandomForestRegressor
 
 
@@ -47,7 +48,13 @@ target_variable = df.columns[len(df.columns) - 1]
 raw_train = df.astype(object).replace(np.nan, 'None')
 raw_test = test.astype(object).replace(np.nan, 'None')
 
+<<<<<<< HEAD
 # keep altering test and train data
+=======
+#im.impute_df(raw_train)
+print(raw_train.head(5))
+
+>>>>>>> b74c1cc3b203edefc036db51b5d1e8dccb37a31c
 train = pd.get_dummies(raw_train[features])
 test = pd.get_dummies(raw_test)
 
@@ -63,9 +70,13 @@ rfr.fit(train, raw_train[target_variable])
 
 # predict model
 predictions = pd.DataFrame(rfr.predict(test))
-export = pd.concat([raw_test["Id"], predictions], axis = 1)
+export = pd.concat([raw_test["Id"], predictions], axis=1)
 export_headers = ["Id", "SalePrice"]
 export.columns = export_headers
 
+<<<<<<< HEAD
 # export data
 export.to_csv("submission.csv", columns=export_headers, index = False)
+=======
+export.to_csv("submission.csv", columns=export_headers, index=False)
+>>>>>>> b74c1cc3b203edefc036db51b5d1e8dccb37a31c
