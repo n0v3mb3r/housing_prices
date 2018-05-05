@@ -40,8 +40,11 @@ svr = SVR(kernel='linear',C=1E10)
 svr.fit(train, raw_train[target_variable])
 
 # predict model
+print('running rfr')
 rfr_predictions = pd.DataFrame(rfr.predict(test))
+print('running gbc')
 gbc_predictions = pd.DataFrame(gbc.predict(test))
+print('running svr')
 svr_predictions = pd.DataFrame(svr.predict(test))
 
 predictions = pd.concat([rfr_predictions, gbc_predictions,svr_predictions], axis = 1)
