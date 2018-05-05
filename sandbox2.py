@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.svm import SVR
 
 # load data
 df = pd.read_csv("train.csv")
@@ -35,11 +36,15 @@ rfr.fit(train, raw_train[target_variable])
 gbc = GradientBoostingRegressor(n_estimators=100)
 gbc.fit(train, raw_train[target_variable])
 
+svr = SVR(kernel='linear',C=1E10)
+svr.fit(train, raw_train[target_variable])
+
 # predict model
 rfr_predictions = pd.DataFrame(rfr.predict(test))
 gbc_predictions = pd.DataFrame(gbc.predict(test))
+svr_predictions = pd.DataFrame(svr.predict(test))
 
-predictions = pd.concat([rfr_predictions, gbc_predictions], axis = 1)
+predictions = pd.concat([rfr_predictions, gbc_predictions,svr_predictions], axis = 1)
 predictions['avg'] = predictions.mean(axis = 1)
 
 export = pd.concat([raw_test["Id"], predictions['avg']], axis = 1)
