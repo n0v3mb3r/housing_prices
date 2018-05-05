@@ -7,6 +7,7 @@ from sklearn.svm import SVR
 # load data
 df = pd.read_csv("train.csv")
 test = pd.read_csv("test.csv")
+variable_types = pd.read_csv("variable_types.csv", index_col = 0)
 
 # set random seed
 np.random.seed(1)
@@ -16,6 +17,11 @@ features = df.columns[1:(len(df.columns) - 1)]
 target_variable = df.columns[len(df.columns) - 1]
 
 # alter test and train data
+
+for var in features:
+	if variable_types.loc[var,:] == 'str':
+
+
 raw_train = df.astype(object).replace(np.nan, 'None')
 raw_test = test.astype(object).replace(np.nan, 'None')
 
