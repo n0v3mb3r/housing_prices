@@ -30,24 +30,27 @@ for c in missing_cols:
 test = test[train.columns]
 
 # fit model
+print('running rfr')
 rfr = RandomForestRegressor(n_estimators=100)
 rfr.fit(train, raw_train[target_variable])
 
+print('running gbc')
 gbc = GradientBoostingRegressor(n_estimators=100)
 gbc.fit(train, raw_train[target_variable])
 
-svr = SVR(kernel='linear',C=1E10)
+print('running svr')
+svr = SVR(kernel='linear')
 svr.fit(train, raw_train[target_variable])
 
 # predict model
-print('running rfr')
+print('predictions')
 rfr_predictions = pd.DataFrame(rfr.predict(test))
-print('running gbc')
 gbc_predictions = pd.DataFrame(gbc.predict(test))
-print('running svr')
-svr_predictions = pd.DataFrame(svr.predict(test))
 
-predictions = pd.concat([rfr_predictions, gbc_predictions,svr_predictions], axis = 1)
+# svr predictions increased error, removing
+# svr_predictions = pd.DataFrame(svr.predict(test))
+
+predictions = pd.concat([rfr_predictions, gbc_predictions], axis = 1)
 predictions['avg'] = predictions.mean(axis = 1)
 
 export = pd.concat([raw_test["Id"], predictions['avg']], axis = 1)
